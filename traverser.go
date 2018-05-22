@@ -2,16 +2,26 @@ package test
 
 import (
 	"github.com/fsm/fsm"
-	targetutil "github.com/fsm/target-util"
 )
 
 // TestingTraverser is a fsm.Traverser, with an additional three methods:
 // Send(), GetReceived(), and GetAllReceived()
 type TestingTraverser struct {
 	uuid     string
+	platform string
 	stateMap fsm.StateMap
 	emitter  *queueEmitter
 	store    fsm.Store
+}
+
+// Platform returns the Traversers Platform
+func (t *TestingTraverser) Platform() string {
+	return t.platform
+}
+
+// SetPlatform sets the Traversers Platform
+func (t *TestingTraverser) SetPlatform(platform string) {
+	t.platform = platform
 }
 
 // UUID returns the Traversers UUID
@@ -53,18 +63,18 @@ func (t *TestingTraverser) SetCurrentState(state string) {
 
 // Upsert updates (or creates) a variable for this traverser.
 // Be sure to call this only after you have called at least one `Send()` to this Traverser.
-func (t *TestingTraverser) Upsert(key string, value interface{}) error {
+func (t *TestingTraverser) Upsert(key string, value interface{}) {
 	// TODO
 	traverser, err := t.store.FetchTraverser(t.uuid)
 	if err != nil {
 		panic("Failed to access *TestingTraverser's underlying traverser.  It is likely you have forgotten to call Send() prior to calling Upsert().")
 	}
-	return traverser.Upsert(key, value)
+	traverser.Upsert(key, value)
 }
 
 // Fetch returns a variable set to this traverser.
 // Be sure to call this only after you have called at least one `Send()` to this Traverser.
-func (t *TestingTraverser) Fetch(key string) (interface{}, error) {
+func (t *TestingTraverser) Fetch(key string) interface{} {
 	traverser, err := t.store.FetchTraverser(t.uuid)
 	if err != nil {
 		panic("Failed to access *TestingTraverser's underlying traverser.  It is likely you have forgotten to call Send() prior to calling Fetch().")
@@ -74,17 +84,17 @@ func (t *TestingTraverser) Fetch(key string) (interface{}, error) {
 
 // Delete deletes a variable set to this traverser.
 // Be sure to call this only after you have called at least one `Send()` to this Traverser.
-func (t *TestingTraverser) Delete(key string) error {
+func (t *TestingTraverser) Delete(key string) {
 	traverser, err := t.store.FetchTraverser(t.uuid)
 	if err != nil {
 		panic("Failed to access *TestingTraverser's underlying traverser.  It is likely you have forgotten to call Send() prior to calling Delete().")
 	}
-	return traverser.Delete(key)
+	traverser.Delete(key)
 }
 
 // Send emulates a user sending a message to a chat-bot.
 func (t *TestingTraverser) Send(input string) {
-	targetutil.Step(t.uuid, input, t.store, t.emitter, t.stateMap)
+	fsm.Step(Platform, t.uuid, input, fsm.TextInputTransformer, t.store, t.emitter, t.stateMap)
 }
 
 // GetReceived returns the first message that was sent to the traverser that hasn't been received yet.
