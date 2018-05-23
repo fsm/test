@@ -72,7 +72,6 @@ func (t *TestingTraverser) SetCurrentState(state string) {
 // Upsert updates (or creates) a variable for this traverser.
 // Be sure to call this only after you have called at least one `Send()` to this Traverser.
 func (t *TestingTraverser) Upsert(key string, value interface{}) {
-	// TODO
 	traverser, err := t.store.FetchTraverser(t.uuid)
 	if err != nil {
 		panic("Failed to access *TestingTraverser's underlying traverser.  It is likely you have forgotten to call Send() prior to calling Upsert().")
