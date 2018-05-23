@@ -4,6 +4,8 @@ import (
 	"github.com/fsm/fsm"
 )
 
+// Platform is the value that traverser.Platform() will return
+// for any traverser created from fsm/test
 const Platform = "fsm.test"
 
 // New creates and returns a new *TestingTraverser, which can be used
