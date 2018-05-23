@@ -14,15 +14,7 @@ type TestingTraverser struct {
 	store    fsm.Store
 }
 
-// Platform returns the Traversers Platform
-func (t *TestingTraverser) Platform() string {
-	return t.platform
-}
-
-// SetPlatform sets the Traversers Platform
-func (t *TestingTraverser) SetPlatform(platform string) {
-	t.platform = platform
-}
+// ===== UUID =====
 
 // UUID returns the Traversers UUID
 func (t *TestingTraverser) UUID() string {
@@ -39,6 +31,20 @@ func (t *TestingTraverser) SetUUID(uuid string) {
 	t.uuid = uuid
 	traverser.SetUUID(uuid)
 }
+
+// ===== Platform =====
+
+// Platform returns the Traversers Platform
+func (t *TestingTraverser) Platform() string {
+	return t.platform
+}
+
+// SetPlatform sets the Traversers Platform
+func (t *TestingTraverser) SetPlatform(platform string) {
+	t.platform = platform
+}
+
+// ===== State =====
 
 // CurrentState returns the current active state the Traverser is in.
 // Be sure to call this only after you have called at least one `Send()` to this Traverser.
@@ -60,6 +66,8 @@ func (t *TestingTraverser) SetCurrentState(state string) {
 	}
 	traverser.SetCurrentState(state)
 }
+
+// ===== Other Data =====
 
 // Upsert updates (or creates) a variable for this traverser.
 // Be sure to call this only after you have called at least one `Send()` to this Traverser.
@@ -91,6 +99,8 @@ func (t *TestingTraverser) Delete(key string) {
 	}
 	traverser.Delete(key)
 }
+
+// ===== Other Functions =====
 
 // Send emulates a user sending a message to a chat-bot.
 func (t *TestingTraverser) Send(input string) {
