@@ -7,7 +7,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/fsm/test)](https://goreportcard.com/report/github.com/fsm/test)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/fsm/Lobby)
 
-Test is an integration test target for [fsm](https://github.com/fsm/fsm).
+Test is an integration test target for [FSM](https://github.com/fsm/fsm).
 
 # Getting Started
 
